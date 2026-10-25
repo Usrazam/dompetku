@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f5c44">
+<meta name="robots" content="noindex">
+<title>Dompetku</title>
+<link rel="icon" type="image/png" href="/favicon-48.png">
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 24px; box-sizing: border-box;
+    background: radial-gradient(120% 80% at 50% 0%, #2a7a58 0%, #1f5c44 60%, #18493a 100%); color: #fdf8ee;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  img { width: 92px; height: 92px; border-radius: 26px; box-shadow: 0 16px 40px -12px rgba(0,0,0,.55); }
+  b { font-size: 1.6rem; }
+  p { margin: 0; opacity: .85; font-size: .95rem; max-width: 300px; line-height: 1.5; }
+  .garis { width: 120px; height: 4px; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; margin-top: 6px; }
+  .garis i { display: block; width: 40%; height: 100%; border-radius: 99px; background: #e8b25a; animation: jalan 1.1s ease-in-out infinite; }
+  @keyframes jalan { from { transform: translateX(-110%); } to { transform: translateX(260%); } }
+  button { margin-top: 8px; border: 0; border-radius: 12px; padding: 12px 22px; font: inherit; font-weight: 700; background: #e8b25a; color: #1d2a23; cursor: pointer; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+  <img src="/icon-192.png" alt="">
+  <b>Dompetku</b>
+  <p id="pesan">Memuat aplikasi…</p>
+  <div class="garis" id="garis"><i></i></div>
+  <button type="button" id="ulang" hidden>Coba lagi</button>
+<script>
+  // Halaman ini muncul kalau alamat tidak ditemukan, atau saat GitHub sedang memperbarui web.
+  // Otomatis mencoba membuka halaman utama lagi (dengan alamat baru supaya tidak memakai simpanan lama).
+  var q = new URLSearchParams(location.search), coba = Number(q.get('coba') || 0);
+  function buka(n) { location.replace('/?coba=' + n + '&t=' + Date.now()); }
+  if (coba < 5) {
+    setTimeout(function () { buka(coba + 1); }, coba === 0 ? 300 : 3000);
+    if (coba > 0) document.getElementById('pesan').textContent = 'Dompetku sedang diperbarui, tunggu sebentar…';
+  } else {
+    document.getElementById('pesan').textContent = 'Dompetku sedang diperbarui. Coba lagi beberapa menit lagi ya.';
+    document.getElementById('garis').hidden = true;
+    document.getElementById('ulang').hidden = false;
+  }
+  document.getElementById('ulang').onclick = function () { buka(1); };
+</script>
+</body>
+</html>
