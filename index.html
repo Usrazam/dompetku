@@ -3,23 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f5132">
+<meta name="theme-color" content="#1f5c44">
 <meta name="format-detection" content="telephone=no">
+<meta name="description" content="Dompetku: catat pemasukan, pengeluaran, dan tabungan dengan mudah.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dompetku">
 <title>Dompetku</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230f5132'/><rect x='12' y='20' width='40' height='28' rx='6' fill='%23e8c35a'/><circle cx='42' cy='34' r='4' fill='%230f5132'/></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-  html, body { margin: 0; height: 100%; background: #0f5132; overflow: hidden; }
+  html, body { margin: 0; height: 100%; background: #1f5c44; overflow: hidden; }
   iframe { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; border: 0; display: block; }
-  #muat { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-          color: #fff; font: 600 16px system-ui, sans-serif; }
+  /* Layar pembuka: logo Dompetku sampai aplikasinya siap */
+  #buka { position: fixed; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    background: radial-gradient(120% 80% at 50% 0%, #2a7a58 0%, #1f5c44 60%, #18493a 100%); color: #fdf8ee;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; transition: opacity .45s ease; }
+  #buka.hilang { opacity: 0; pointer-events: none; }
+  #buka img { width: 92px; height: 92px; border-radius: 26px; box-shadow: 0 16px 40px -12px rgba(0,0,0,.55); animation: denyut 1.6s ease-in-out infinite; }
+  #buka b { font-size: 1.6rem; letter-spacing: -.01em; }
+  #buka small { opacity: .75; font-size: .9rem; margin-top: -8px; }
+  #buka .garis { width: 120px; height: 4px; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; margin-top: 10px; }
+  #buka .garis i { display: block; width: 40%; height: 100%; border-radius: 99px; background: #e8b25a; animation: jalan 1.1s ease-in-out infinite; }
+  #buka .kaki { position: absolute; bottom: max(22px, env(safe-area-inset-bottom)); font-size: .75rem; opacity: .6; }
+  @keyframes denyut { 50% { transform: scale(1.05); } }
+  @keyframes jalan { from { transform: translateX(-110%); } to { transform: translateX(260%); } }
 </style>
 </head>
 <body>
-<div id="muat">Memuat Dompetku…</div>
+<div id="buka">
+  <img src="icon-192.png" alt="">
+  <b>Dompetku</b>
+  <small>Catatan keuangan pribadi</small>
+  <div class="garis"><i></i></div>
+  <div class="kaki">Dibuat oleh Pottah</div>
+</div>
 <iframe
-  src="https://script.google.com/macros"
+  src="TEMPEL_LINK_EXEC_DI_SINI"
   title="Dompetku"
   allow="clipboard-write"
-  onload="document.getElementById('muat').style.display='none'"></iframe>
+  onload="setTimeout(function () { document.getElementById('buka').classList.add('hilang'); }, 700)"></iframe>
+<script>
+  // Supaya bisa dipasang seperti aplikasi ("Tambahkan ke layar utama")
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+  // Cadangan: kalau terlalu lama, tutup layar pembuka
+  setTimeout(function () { document.getElementById('buka').classList.add('hilang'); }, 12000);
+</script>
 </body>
 </html>
