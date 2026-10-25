@@ -1,6 +1,6 @@
 // Service worker Dompetku: supaya bisa dipasang sebagai aplikasi & tetap terbuka walau GitHub sedang memperbarui.
 // Data keuangan tetap diambil langsung dari Google (tidak disimpan di sini).
-var CACHE = 'dompetku-v3';
+var CACHE = 'dompetku-v4';
 var FILE = ['/', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/favicon-48.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
