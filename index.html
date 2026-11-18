@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f4f6f5">
+<meta name="theme-color" content="#1f5c44">
 <meta name="format-detection" content="telephone=no">
 <meta name="description" content="Dompetku: catat pemasukan, pengeluaran, dan tabungan dengan mudah.">
 <meta name="mobile-web-app-capable" content="yes">
@@ -12,6 +12,9 @@
 <meta name="apple-mobile-web-app-title" content="Dompetku">
 <title>Dompetku</title>
 <link rel="manifest" href="manifest.webmanifest">
+<!-- sambung ke server Google lebih awal, supaya Dompetku cepat terbuka -->
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
 <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
@@ -44,14 +47,19 @@
   src="https://script.google.com/macros/s/AKfycbz66lWT3APFauhxR02V6ulVHhHjp6kywJNKormt5GK5JNPl8Exa8zYnoxMo93xUgsKUSg/exec"
   title="Dompetku"
   allow="clipboard-write"
-  onload="setTimeout(function () { document.getElementById('buka').classList.add('hilang'); }, 700)"></iframe>
+  onload="cadangan(4000)"></iframe>
 <script>
   // Supaya bisa dipasang seperti aplikasi ("Tambahkan ke layar utama")
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
-  // Cadangan: kalau terlalu lama, tutup layar pembuka
-  setTimeout(function () { document.getElementById('buka').classList.add('hilang'); }, 12000);
+  // Layar pembuka ditutup saat Dompetku memberi tahu "siap" (layar PIN sudah tampil)
+  function tutupBuka() { document.getElementById('buka').classList.add('hilang'); }
+  window.addEventListener('message', function (e) { if (e.data && e.data.dompetku === 'siap') tutupBuka(); });
+  // Cadangan: kalau sinyal tidak datang (mis. Dompetku versi lama), tutup juga
+  var tCad = 0;
+  function cadangan(ms) { clearTimeout(tCad); tCad = setTimeout(tutupBuka, ms); }
+  cadangan(12000);
 </script>
 </body>
 </html>
