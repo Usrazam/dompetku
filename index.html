@@ -55,7 +55,13 @@
   }
   // Layar pembuka ditutup saat Dompetku memberi tahu "siap" (layar PIN sudah tampil)
   function tutupBuka() { document.getElementById('buka').classList.add('hilang'); }
-  window.addEventListener('message', function (e) { if (e.data && e.data.dompetku === 'siap') tutupBuka(); });
+  // Pesan dari Dompetku: "siap" (tutup layar pembuka) dan "warna" (status bar ikut warna paling atas layar)
+  var metaWarna = document.querySelector('meta[name="theme-color"]');
+  window.addEventListener('message', function (e) {
+    var d = e.data; if (!d || typeof d !== 'object') return;
+    if (d.dompetku === 'siap') tutupBuka();
+    else if (d.dompetku === 'warna' && /^#[0-9a-f]{6}$/i.test(d.c || '') && metaWarna) metaWarna.setAttribute('content', d.c);
+  });
   // Cadangan: kalau sinyal tidak datang (mis. Dompetku versi lama), tutup juga
   var tCad = 0;
   function cadangan(ms) { clearTimeout(tCad); tCad = setTimeout(tutupBuka, ms); }

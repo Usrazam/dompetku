@@ -1,7 +1,7 @@
 // Service worker Dompetku: supaya bisa dipasang sebagai aplikasi & langsung terbuka.
 // Halaman pembuka diambil dari simpanan HP dulu (cepat), versi terbaru dicek di belakang layar untuk dibuka berikutnya.
 // Data keuangan tetap diambil langsung dari Google (tidak disimpan di sini).
-var CACHE = 'dompetku-v5';
+var CACHE = 'dompetku-v6';
 var FILE = ['/', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/favicon-48.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
